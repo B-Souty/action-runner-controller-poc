@@ -1,0 +1,24 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: single-repo-runner-deploy
+spec:
+  template:
+    spec:
+      repository: owner/repo_name
+      env: []
+
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: single-repo-runner-deployment-autoscaler
+spec:
+  minReplicas: 0
+  maxReplicas: 5
+  scaleTargetRef:
+    name: single-repo-runner-deploy
+  scaleUpTriggers:
+  - githubEvent: {}
+    duration: "5m"
+

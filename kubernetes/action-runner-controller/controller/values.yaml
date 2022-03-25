@@ -1,0 +1,15 @@
+authSecret:
+  create: true
+  github_app_id: "123456"
+  github_app_installation_id: "12345678"
+  github_app_private_key: |
+    Multiline string of the Github App private key
+
+githubWebhookServer:
+  enabled: true
+  secret:
+    enabled: true
+    create: true
+    github_webhook_secret_token: thisisasecret
+  service:
+    type: NodePort
