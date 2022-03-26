@@ -11,7 +11,7 @@ sudo mv /tmp/eksctl /usr/local/bin
 
 For other OS check the [eksctl doc](https://eksctl.io/introduction/#installation).
 
-# Create a Kubernetes cluster
+## Create a Kubernetes cluster
 
 The provided cluster configuration will create a k8s cluster in the `eu-west-1` region (feel free to change it to another region of your choice) with a single spot `t3.medium` worker node.
 
