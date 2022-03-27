@@ -52,24 +52,22 @@ Once the controller is deployed we can move on to create the actual runners.
 
 ### Setting up the webhook
 
-:warning: The current setup for the webhook is bad. It requires manual setup, it's not secure and it's janky. It's simply a quick way to get started with the most important part which is the autoscalling of runners. It will improved further down the line.
+:warning: The current setup for the webhook is bad. It requires manual steps and it's not secure. It's simply a quick way to get started with the most important part which is the autoscalling of runners. In a production environment the webhook would be setup using an ingress (or similar solution). This would allow the endpoint to remains unchanged if the ARC has to be re-deployed and the traffic would happen over SSL.
 
 The last step is setting up the webhook to actually trigger the autoscalling when a workflow starts or complete.
 
-Take note of the NodePort on which the webhook server is exposed (e.g. `30123` in the example below).
+Take note of the url assigned to the loadbalancer service on which the webhook server is exposed (e.g. `a1dbe4e4a8326b62e50815e4eb7da009f-466644591.eu-west-1.elb.amazonaws.com` in the example below).
 
 ```
 kubectl -n actions-runner-system get svc
 
-NAME                                              TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)        AGE
-actions-runner-controller-github-webhook-server   NodePort    10.100.1.1   <none>        80:30123/TCP   120m
-actions-runner-controller-metrics-service         ClusterIP   10.100.1.2   <none>        8443/TCP       120m
-actions-runner-controller-webhook                 ClusterIP   10.100.1.3   <none>        443/TCP        120m
+NAME                                              TYPE            CLUSTER-IP   EXTERNAL-IP                                                                   PORT(S)        AGE
+actions-runner-controller-github-webhook-server   LoadBalancer    10.100.1.1   a1dbe4e4a8326b62e50815e4eb7da009f-466644591.eu-west-1.elb.amazonaws.com       80:30123/TCP   120m
+actions-runner-controller-metrics-service         ClusterIP       10.100.1.2   <none>                                                                        8443/TCP       120m
+actions-runner-controller-webhook                 ClusterIP       10.100.1.3   <none>                                                                        443/TCP        120m
 ```
 
-From the AWS console, take note of the public IP of your EKS worker node then edit the security group attached to it and allow inbound traffic onto port `30123`.
-
-Now on the setting page for the Github App, activate the webhook and in the webhook url field enter `http://<node_ip>:30123`. Finally navigate the the `Permission & events` page then in the `Subscribe to events` section, select `Workflow job`.
+Now on the setting page for the Github App, activate the webhook and in the webhook url field enter the loadbalancer service url `http://<loadbalancer_service_url>`. Finally navigate the the `Permission & events` page then in the `Subscribe to events` section, select `Workflow job`.
 
 
 ### Runners
