@@ -38,3 +38,7 @@ More info [here](./AWS/readme.md).
 5. [Allow ARC webhook server NodePort in the security group](./kubernetes/readme.md#Allow-inbound-traffic-to-the-webhook-server).
 6. [Add webhook to the Github App](./kubernetes/readme.md#Setting-up-the-webhook).
 7. [Create a runner](./kubernetes/readme.md#Runners).
+
+## Utilities
+
+A [script](./utils/list-aws-resources/list-aws-resources.py) is provided to list all AWS resources deployed as part of this POC. A guide is available [here](./utils/readme.md).
